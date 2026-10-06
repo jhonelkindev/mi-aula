@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi Aula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f6f9;--side:#fff;--card:#fff;--ink:#141a2e;--mut:#6a7186;--line:#e5e8ef;--soft:#f0f2f7;--pri:#4f46e5;--pri-2:#4338ca;--on-pri:#fff;--pri-soft:#eeefff;--danger:#d92550;--paper:#fff;--desk:#eceef3;--shadow:0 1px 2px rgba(20,26,46,.05),0 8px 24px rgba(20,26,46,.06);--r:14px}
+:root[data-theme=dark]{--bg:#0d1017;--side:#12161f;--card:#161b27;--ink:#e9ecf5;--mut:#8d96ac;--line:#242a39;--soft:#1d2332;--pri:#8f90ff;--pri-2:#a9aaff;--on-pri:#0d1017;--pri-soft:#22264d;--danger:#ff6b88;--paper:#161b27;--desk:#0a0c12;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3,p{margin:0}
+h1{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+h3{font-size:1.1rem;font-weight:700}
+.mut{color:var(--mut)}.sm{font-size:.82rem}
+.ic{flex:none;display:block}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.end{justify-content:flex-end}
+
+/* botones */
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:10px;font-weight:600;font-size:.88rem;white-space:nowrap;transition:background .15s,border-color .15s,transform .05s}
+.btn:hover{background:var(--soft)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--pri);border-color:var(--pri);color:var(--on-pri);box-shadow:0 4px 14px color-mix(in srgb,var(--pri) 30%,transparent)}
+.btn.primary:hover{background:var(--pri-2);border-color:var(--pri-2)}
+.btn.danger{color:var(--danger)}.btn.sm{padding:5px 10px;font-size:.8rem;border-radius:8px}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.icon-btn{display:inline-grid;place-items:center;width:30px;height:30px;border:0;background:none;border-radius:8px;color:var(--mut);flex:none}
+.icon-btn:hover{background:var(--soft);color:var(--ink)}.icon-btn.danger:hover{color:var(--danger)}
+
+/* estructura */
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);height:100vh;height:100dvh}
+.side{background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 14px 14px;min-height:0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;letter-spacing:-.01em;padding:2px 6px 16px}
+.logo{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6 60%,#ec4899);color:#fff}
+.sem-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:9px 12px;margin-bottom:14px}
+.sem-btn:hover{border-color:var(--pri)}
+.sem-btn small{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:700}
+.sem-btn b{display:block;font-weight:700}
+.nav-i{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:10px;font-weight:600;color:var(--mut);margin-bottom:2px}
+.nav-i span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-i:hover{background:var(--soft);color:var(--ink)}
+.nav-i.on{background:var(--pri-soft);color:var(--pri)}
+.side-h{display:flex;align-items:center;justify-content:space-between;margin:18px 6px 6px 10px;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--mut)}
+.side-subs{flex:1;overflow:auto;min-height:40px}
+.side-empty{padding:6px 10px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.side-foot{border-top:1px solid var(--line);padding-top:12px;margin-top:8px}
+.quota{font-size:.74rem;padding:0 6px 10px}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:3px}
+.me{display:flex;align-items:center;gap:8px;padding:0 2px}
+.avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--pri-soft);color:var(--pri);font-weight:800;font-size:.85rem;flex:none}
+.email{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8rem;color:var(--mut)}
+.main{min-width:0;display:flex;flex-direction:column;height:100vh;height:100dvh}
+.demo{background:#fff3bf;color:#5c4400;padding:6px 16px;font-size:.8rem;text-align:center;font-weight:600}
+.mbar{display:none;align-items:center;gap:8px;padding:8px 12px;background:var(--side);border-bottom:1px solid var(--line)}
+.content{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column}
+.pad{padding:30px 34px 48px}
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.eyebrow{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--pri);margin-bottom:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.scrim{display:none}
+
+/* calendario */
+.today-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:.82rem;font-weight:600}
+.pill .dot{width:8px;height:8px}
+.cal-wrap{overflow:auto}
+.cal{min-width:fit-content}
+.cal-head,.cal-body{display:grid;grid-template-columns:58px repeat(var(--n),minmax(104px,1fr))}
+.cal-head{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);z-index:3;border-radius:var(--r) var(--r) 0 0}
+.cal-corner,.cal-times{position:sticky;left:0;background:var(--card);z-index:2}
+.cal-dh{padding:12px 8px;text-align:center;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);border-left:1px solid var(--line)}
+.cal-dh.today{color:var(--pri)}
+.cal-dh.today span{background:var(--pri-soft);padding:4px 10px;border-radius:999px}
+.cal-times div{height:var(--hh);position:relative}
+.cal-times span{position:absolute;top:-8px;right:8px;font-size:.7rem;color:var(--mut);font-weight:600;white-space:nowrap}
+.cal-times div:first-child span{top:2px}
+.cal-col{position:relative;border-left:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% var(--hh);cursor:cell}
+.cal-col.today{background-color:color-mix(in srgb,var(--pri) 4%,transparent)}
+.ev{position:absolute;padding:2px;border:0;background:none;text-align:left;z-index:1}
+.ev>div{height:100%;border-radius:9px;padding:6px 9px;overflow:hidden;background:color-mix(in srgb,var(--c) 15%,var(--card));border-left:4px solid var(--c);color:color-mix(in srgb,var(--c) 62%,var(--ink));transition:transform .12s,box-shadow .12s}
+.ev:hover>div{transform:translateY(-1px);box-shadow:0 6px 16px color-mix(in srgb,var(--c) 28%,transparent)}
+.ev b{display:block;font-size:.82rem;line-height:1.25;font-weight:700}
+.ev span{display:block;font-size:.72rem;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now{position:absolute;left:0;right:0;height:2px;background:#ef4444;z-index:2;pointer-events:none}
+.now::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#ef4444}
+.hint{margin-top:12px}
+.callout{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:16px 20px;margin-bottom:18px;background:var(--pri-soft);border:1px dashed color-mix(in srgb,var(--pri) 45%,transparent);border-radius:var(--r)}
+
+/* materia */
+.subj-head{padding:26px 34px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 11%,var(--bg)),var(--bg));border-bottom:1px solid var(--line)}
+.subj-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.subj-head .eyebrow{color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:.8rem;font-weight:600}
+.chip.tint{background:color-mix(in srgb,var(--c) 12%,var(--card));border-color:color-mix(in srgb,var(--c) 30%,var(--line))}
+.tabs{display:flex;gap:4px}
+.tabs button{display:flex;align-items:center;gap:7px;border:0;background:none;padding:10px 14px;font-weight:700;color:var(--mut);border-bottom:3px solid transparent;font-size:.9rem}
+.tabs button.on{color:var(--ink);border-color:var(--c,var(--pri))}
+
+/* bloc de notas */
+.nb{flex:1;min-height:420px;display:grid;grid-template-columns:288px minmax(0,1fr)}
+.nb.top{border-top:1px solid var(--line)}
+.nb-list{background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.nb-tools{display:flex;gap:8px;padding:12px;border-bottom:1px solid var(--line)}
+.nb-tools input{margin:0}
+#nlist{flex:1;overflow:auto;padding:8px}
+.nb-item{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;margin-bottom:2px}
+.nb-item:hover{background:var(--soft)}
+.nb-item.on{background:var(--pri-soft)}
+.nb-item .t{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-item.on .t{color:var(--pri)}
+.nb-edit{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--desk)}
+.ed-bar{display:flex;align-items:center;gap:2px;flex-wrap:wrap;padding:6px 10px;background:var(--card);border-bottom:1px solid var(--line)}
+.ed-bar .tb{min-width:30px;height:30px;padding:0 7px;border:0;background:none;border-radius:7px;font-weight:700;color:var(--mut);display:inline-grid;place-items:center;font-size:.85rem}
+.ed-bar .tb:hover{background:var(--soft);color:var(--ink)}
+.ed-bar .sep{width:1px;height:20px;background:var(--line);margin:0 5px}
+.ed-bar .grow{flex:1}
+#saved{font-size:.76rem;color:var(--mut);margin-right:6px;white-space:nowrap}
+.back-m{display:none}
+.paper-wrap{flex:1;overflow:auto;padding:28px 16px 90px}
+.paper{max-width:820px;min-height:1040px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);padding:64px 76px 90px}
+.doc-title{display:block;width:100%;border:0;background:none;outline:0;font-size:1.9rem;font-weight:800;letter-spacing:-.02em;padding:0;margin:0 0 4px}
+.doc-meta{font-size:.78rem;color:var(--mut);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.doc{outline:0;min-height:600px;font-size:1rem;line-height:1.7;overflow-wrap:anywhere}
+.doc:empty::before{content:attr(data-ph);color:var(--mut)}
+.doc p{margin:0 0 .7em}.doc h1{font-size:1.5rem;margin:1em 0 .4em}.doc h2{font-size:1.2rem;font-weight:700;margin:1em 0 .4em}
+.doc ul,.doc ol{margin:0 0 .7em;padding-left:1.6em}
+.doc blockquote{margin:0 0 .7em;padding:6px 16px;border-left:4px solid var(--pri);background:var(--soft);border-radius:0 8px 8px 0}
+.doc a{color:var(--pri)}
+.doc img{max-width:100%;height:auto;border-radius:6px;display:block;margin:10px 0;cursor:pointer}
+.doc img[data-w="25"]{width:25%}.doc img[data-w="50"]{width:50%}.doc img[data-w="75"]{width:75%}.doc img[data-w="100"]{width:100%}
+.doc img.sel{outline:3px solid var(--pri);outline-offset:2px}
+.doc table{border-collapse:collapse;width:100%;margin:10px 0;table-layout:fixed}
+.doc td,.doc th{border:1px solid var(--line);padding:7px 10px;vertical-align:top;min-width:40px}
+.doc tr:first-child td{background:var(--soft);font-weight:700}
+.doc [style*="background-color"]{color:#1a1a1a;border-radius:3px}
+.empty{display:grid;place-items:center;text-align:center;color:var(--mut);padding:40px 20px;gap:10px}
+.empty .big{width:56px;height:56px;border-radius:16px;background:var(--pri-soft);color:var(--pri);display:grid;place-items:center;margin:0 auto 6px}
+.nb-edit>.empty{flex:1}
+#imgbar{position:fixed;display:none;gap:2px;background:var(--ink);padding:4px;border-radius:9px;z-index:30;box-shadow:var(--shadow)}
+#imgbar button{border:0;background:none;color:var(--bg);font-weight:700;font-size:.76rem;padding:5px 8px;border-radius:6px}
+#imgbar button:hover{background:rgba(128,128,128,.35)}
+
+/* documentos */
+.docs{flex:1;padding:22px 34px 60px}
+.docs.drag{outline:3px dashed var(--pri);outline-offset:-10px;background:var(--pri-soft)}
+.crumbs{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-weight:700}
+.crumbs button{border:0;background:none;padding:4px 8px;border-radius:7px;font-weight:700;color:var(--mut)}
+.crumbs button:hover{background:var(--soft);color:var(--ink)}
+.crumbs button:last-of-type{color:var(--ink)}
+.folders{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));margin-bottom:20px}
+.folder .sm{white-space:nowrap}
+.folder{display:flex;align-items:center;gap:10px;padding:12px 8px 12px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.folder:hover{border-color:var(--pri)}
+.folder .fi{color:#f59e0b}
+.folder .grow,.file .grow{flex:1;min-width:0}
+.folder b,.file b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+.folder .acts,.file .acts{display:flex;opacity:.55}
+.folder:hover .acts,.file:hover .acts{opacity:1}
+.files{display:flex;flex-direction:column;gap:6px}
+.file{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 8px 9px 12px;cursor:pointer}
+.file:hover{border-color:var(--pri)}
+.badge{font-size:.66rem;font-weight:800;width:42px;height:36px;border-radius:8px;display:grid;place-items:center;flex:none;background:var(--soft);color:var(--mut);letter-spacing:.03em}
+.badge.r{background:#fee2e2;color:#b91c1c}.badge.b{background:#dbeafe;color:#1d4ed8}.badge.g{background:#dcfce7;color:#15803d}.badge.o{background:#ffedd5;color:#c2410c}.badge.p{background:#f3e8ff;color:#7e22ce}
+.drop-hint{border:2px dashed var(--line);border-radius:var(--r);padding:36px 20px;text-align:center;color:var(--mut)}
+
+/* pendientes */
+.home{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+.home-side{padding:14px;position:sticky;top:0}
+.hs-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:1rem}
+.task{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:12px;padding:10px 8px 10px 12px;margin-bottom:6px}
+.task.red{border-left-color:var(--danger)}.task.amber{border-left-color:#f59e0b}
+.task .grow{flex:1;min-width:0;cursor:pointer}
+.task b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.task.done b{text-decoration:line-through;color:var(--mut)}
+.tmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px}
+.tmeta .dot{width:8px;height:8px}
+.ttype{font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:1px 7px;border-radius:999px;background:var(--soft);color:var(--mut)}
+.ttype.parcial{background:#fee2e2;color:#b91c1c}.ttype.entrega{background:#dbeafe;color:#1d4ed8}.ttype.expo{background:#f3e8ff;color:#7e22ce}
+.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--mut);background:none;display:grid;place-items:center;flex:none;color:#fff;padding:0}
+.chk:hover{border-color:var(--pri)}
+.task.done .chk{background:#16a34a;border-color:#16a34a}
+.due{font-size:.78rem;font-weight:700;white-space:nowrap;color:var(--mut)}
+.due.red{color:var(--danger)}.due.amber{color:#d97706}
+.task .acts{display:flex}
+.task.compact{padding:9px 10px;align-items:flex-start}
+.task.compact .chk{margin-top:2px}
+.task.compact .due{display:block;margin-top:3px}
+.cal-due{border-bottom:1px solid var(--line)}
+.cal-due .cal-corner{display:grid;place-items:center;color:var(--mut)}
+.due-cell{border-left:1px solid var(--line);padding:4px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.duechip{border:0;border-radius:6px;padding:3px 7px;font-size:.72rem;font-weight:700;text-align:left;background:#fef3c7;color:#92400e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duechip.ex{background:#fee2e2;color:#b91c1c}
+.badge-n{margin-left:auto;background:var(--pri);color:var(--on-pri);font-size:.7rem;font-weight:800;border-radius:999px;padding:1px 7px;flex:none}
+.badge-n.red{background:var(--danger);color:#fff}
+.pill.red{border-color:var(--danger);color:var(--danger)}
+.grp{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;font-weight:800;color:var(--mut);margin:22px 0 8px}
+.grp:first-child{margin-top:0}
+.grp.red{color:var(--danger)}
+.tasks-wrap{max-width:880px}
+.mbar .bell{margin-left:auto;position:relative}
+.mbar .bell .badge-n{position:absolute;top:-2px;right:-6px;font-size:.6rem;padding:0 5px}
+@media (max-width:1180px){.home{grid-template-columns:minmax(0,1fr)}.home-side{order:-1;position:static}.home-side .task:nth-of-type(n+5){display:none}}
+
+/* formularios y diálogos */
+label{display:block;font-size:.8rem;font-weight:600;color:var(--mut);margin-bottom:12px}
+input[type=text],input[type=email],input[type=password],input[type=time],input[type=search],input[type=date],textarea,select{display:block;width:100%;margin-top:5px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-weight:500}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:-1px}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);padding:24px;width:min(440px,calc(100vw - 28px));box-shadow:0 24px 70px rgba(0,0,0,.3)}
+dialog.wide{width:min(620px,calc(100vw - 28px))}
+dialog::backdrop{background:rgba(10,12,20,.55);backdrop-filter:blur(3px)}
+dialog h3{margin-bottom:16px}
+.two{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.swatches{display:flex;gap:8px;margin:6px 0 16px;flex-wrap:wrap}
+.swatches label{margin:0}
+.swatches input{position:absolute;opacity:0}
+.swatches span{display:block;width:28px;height:28px;border-radius:50%;background:var(--c);cursor:pointer;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line)}
+.swatches input:checked+span{box-shadow:0 0 0 2px var(--ink)}
+.fs-title{font-size:.8rem;font-weight:700;color:var(--mut);margin-bottom:6px}
+.slot{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr 30px;gap:6px;align-items:center;margin-bottom:6px}
+.slot select,.slot input{margin:0;padding:8px 8px}
+.dfoot{margin-top:20px}
+.sem{display:flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:12px;padding:4px 6px 4px 4px;margin-bottom:8px}
+.sem.on{border-color:var(--pri);background:var(--pri-soft)}
+.sem-pick{flex:1;text-align:left;border:0;background:none;padding:8px 10px;border-radius:8px}
+.sem-pick b{display:block}
+
+/* acceso */
+.auth{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.auth-art{background:linear-gradient(140deg,#4338ca,#7c3aed 55%,#db2777);color:#fff;padding:56px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.auth-art h1{font-size:2.5rem;max-width:12em}
+.auth-art ul{list-style:none;padding:0;margin:0;display:grid;gap:12px;font-weight:600;opacity:.95}
+.auth-art li{display:flex;gap:10px;align-items:center}
+.auth-art .brand{padding:0;font-size:1.25rem}
+.auth-art .logo{background:rgba(255,255,255,.2)}
+.auth-form{display:grid;place-items:center;padding:32px 20px}
+.auth-form form{width:min(360px,100%)}
+.auth-form h2{font-size:1.5rem;font-weight:800;margin:0 0 4px}
+
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:12px;font-size:.86rem;font-weight:600;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;z-index:50}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;inset:0 auto 0 0;width:284px;z-index:20;transform:translateX(-102%);transition:transform .2s}
+  .nav-open .side{transform:none;box-shadow:var(--shadow)}
+  .nav-open .scrim{display:block;position:fixed;inset:0;background:rgba(10,12,20,.5);z-index:19}
+  .mbar{display:flex}
+  .pad{padding:20px 14px 40px}
+  .subj-head{padding:18px 14px 0}
+  h1{font-size:1.4rem}
+  .docs{padding:16px 14px 50px}
+  .nb{grid-template-columns:minmax(0,1fr)}
+  .nb.has .nb-list,.nb:not(.has) .nb-edit{display:none}
+  .back-m{display:inline-grid}
+  .paper-wrap{padding:0}
+  .paper{border:0;border-radius:0;padding:26px 20px 80px;min-height:100%}
+  .doc-title{font-size:1.5rem}
+  .cal-head,.cal-body{grid-template-columns:46px repeat(var(--n),minmax(118px,1fr))}
+  .auth{grid-template-columns:1fr}.auth-art{padding:32px 24px}.auth-art h1{font-size:1.7rem}.auth-art ul{display:none}
+  .slot{grid-template-columns:1fr 1fr 30px}.slot .s-day,.slot .s-room{grid-column:span 1}
+  .slot .s-day{grid-column:1/3}.slot .s-room{grid-column:1/3}
+  .two{grid-template-columns:1fr}
+}
+@media print{
+  .side,.mbar,.demo,.ed-bar,.nb-list,.subj-head,.vhead,#toast,#imgbar,.scrim{display:none!important}
+  html,body,.app,.main,.content,.nb,.nb-edit,.paper-wrap{display:block!important;height:auto!important;overflow:visible!important;background:#fff!important}
+  .paper{border:0;box-shadow:none;max-width:none;margin:0;padding:0;color:#000;background:#fff}
+}
+</style>
+</head>
+<body>
+<div id="app"><p class="mut" style="padding:24px">Cargando…</p></div>
+<dialog id="dlg"></dialog>
+<div id="imgbar"><button data-a="imgW" data-id="25">25%</button><button data-a="imgW" data-id="50">50%</button><button data-a="imgW" data-id="75">75%</button><button data-a="imgW" data-id="100">100%</button><button data-a="imgDel">Quitar</button></div>
+<div id="toast"></div>
+<script>
+/* ============================================================
+   CONFIGURACIÓN — datos de tu proyecto Supabase
+   (Project Settings → API). Si los dejas vacíos, o abres la
+   página con ?demo al final del link, funciona en modo
+   demostración y no guarda nada.
+   ============================================================ */
+const CONFIG = {
+  SUPABASE_URL: 'https://bgufjdcoowgvtrnxlbiy.supabase.co',
+  SUPABASE_KEY: 'sb_publishable_ZePe_V1yU5o4ANRcSEPWCA_SQRap0pv'   // clave pública (publishable)
+};
+
+const DEMO = !CONFIG.SUPABASE_URL || !CONFIG.SUPABASE_KEY || new URLSearchParams(location.search).has('demo');
+const BUCKET = 'archivos';
+const MAX_FILE = 50 * 1024 * 1024;       // límite por archivo del plan gratuito
+const QUOTA = 1024 * 1024 * 1024;        // 1 GB de almacenamiento gratuito
+const COLORS = ['#4f46e5','#0891b2','#16a34a','#ea580c','#db2777','#7c3aed','#ca8a04','#dc2626','#0d9488','#64748b'];
+const DAYS = ['', 'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const NOTE_COLS = 'id,subject_id,title,created_at,updated_at';
+const TYPES = { tarea: 'Tarea', parcial: 'Parcial', entrega: 'Entrega', expo: 'Exposición', otro: 'Otro' };
+const HH = 60;                            // píxeles por hora en el calendario
+
+/* ---------- iconos ---------- */
+const IC = {
+  cap:'<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
+  cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  note:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  trash:'<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  up:'<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>', chev:'<path d="m6 9 6 6 6-6"/>',
+  right:'<path d="m9 6 6 6-6 6"/>', left:'<path d="m15 6-6 6 6 6"/>', menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
+  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  img:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
+  table:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+  print:'<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+  move:'<path d="M5 12h14M13 6l6 6-6 6"/>', user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  ul:'<path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
+  ol:'<path d="M10 6h11M10 12h11M10 18h11M4 4v4M3 8h2M3 14h2l-2 4h2"/>',
+  quote:'<path d="M4 6h16M8 12h12M8 18h12M4 11v8"/>',
+  undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',
+  redo:'<path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/>',
+  hl:'<path d="m9 11 6 6M4 20l4-1 11-11-3-3L5 16z"/>', check:'<path d="m5 12 5 5 9-10"/>',
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
+  tasks:'<path d="m3 5 2 2 3-3M3 12l2 2 3-3M3 19l2 2 3-3M12 6h9M12 13h9M12 20h9"/>'
+};
+const ic = (n, s = 18) => `<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[n]}</svg>`;
+
+/* ---------- utilidades ---------- */
+const $ = s => document.querySelector(s);
+const app = $('#app'), dlg = $('#dlg');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+const pad = n => String(n).padStart(2, '0');
+const hhmm = t => String(t || '').slice(0, 5);
+const mins = t => { const [h, m] = hhmm(t).split(':').map(Number); return h * 60 + (m || 0); };
+const fmtT = t => { const [h, m] = hhmm(t).split(':').map(Number); return `${h % 12 || 12}:${pad(m || 0)} ${h < 12 ? 'am' : 'pm'}`; };
+const byStart = (a, b) => hhmm(a.start_time).localeCompare(hhmm(b.start_time));
+const fmtSize = n => !n ? '0 KB' : n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+const fmtDate = d => d ? new Date(d).toLocaleDateString('es-CO', { day: 'numeric', month: 'short' }) : '';
+const safeName = n => n.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\w.-]+/g, '_').slice(-80);
+const ext = n => (n.includes('.') ? n.split('.').pop() : 'file').slice(0, 4).toUpperCase();
+const extClass = n => { const e = ext(n).toLowerCase(); return e === 'pdf' ? 'r' : /^docx?$/.test(e) ? 'b' : /^(xlsx?|csv)$/.test(e) ? 'g' : /^pptx?$/.test(e) ? 'o' : /^(jpe?g|png|gif|webp|heic)$/.test(e) ? 'p' : ''; };
+const today = () => new Date().getDay() || 7;
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const dayDiff = s => Math.round((new Date(s + 'T00:00') - new Date(ymd(new Date()) + 'T00:00')) / 864e5);
+const el = e => (e.target.nodeType === 1 ? e.target : e.target.parentElement);
+let toastT;
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3500); }
+function errMsg(e) {
+  const m = (e && e.message) || String(e);
+  if (/Invalid login/i.test(m)) return 'Correo o contraseña incorrectos.';
+  if (/not confirmed/i.test(m)) return 'Primero confirma tu correo con el enlace que te enviamos.';
+  if (/already registered/i.test(m)) return 'Ese correo ya tiene cuenta. Inicia sesión.';
+  if (/at least 6/i.test(m)) return 'La contraseña debe tener al menos 6 caracteres.';
+  if (/signups? (not allowed|disabled)/i.test(m)) return 'El registro de cuentas nuevas está cerrado.';
+  if (/Failed to fetch|NetworkError/i.test(m)) return 'Sin conexión con el servidor. Revisa tu internet o si el proyecto de Supabase está pausado.';
+  return m;
+}
+
+/* ---------- capa de datos: Supabase real o memoria (demo) ---------- */
+function supabaseBackend(sb) {
+  const ok = ({ data, error }) => { if (error) throw error; return data; };
+  const st = () => sb.storage.from(BUCKET);
+  return {
+    async session() { return ok(await sb.auth.getSession()).session?.user || null; },
+    async signIn(email, password) { return ok(await sb.auth.signInWithPassword({ email, password })).user; },
+    async signUp(email, password) { const d = ok(await sb.auth.signUp({ email, password })); return d.session ? d.user : null; },
+    async signOut() { await sb.auth.signOut(); },
+    async setPref(k, v) { ok(await sb.auth.updateUser({ data: { [k]: v } })); },
+    async list(t, cols) { return ok(await sb.from(t).select(cols || '*').order('created_at')); },
+    async get(t, id) { return ok(await sb.from(t).select('*').eq('id', id).single()); },
+    async insert(t, row) { return ok(await sb.from(t).insert(row).select().single()); },
+    async insertMany(t, rows) { return rows.length ? ok(await sb.from(t).insert(rows).select()) : []; },
+    async update(t, id, patch) { return ok(await sb.from(t).update(patch).eq('id', id).select().single()); },
+    async remove(t, id) { ok(await sb.from(t).delete().eq('id', id)); },
+    async removeBy(t, col, val) { ok(await sb.from(t).delete().eq(col, val)); },
+    async upload(path, file) { ok(await st().upload(path, file, { contentType: file.type || 'application/octet-stream' })); },
+    async url(path) { return ok(await st().createSignedUrl(path, 3600)).signedUrl; },
+    async removeFiles(paths) { if (paths.length) ok(await st().remove(paths)); },
+    async removePrefix(prefix) { const l = ok(await st().list(prefix, { limit: 1000 })); if (l && l.length) ok(await st().remove(l.map(o => prefix + '/' + o.name))); }
+  };
+}
+function memoryBackend() {
+  const db = { semesters: [], subjects: [], schedule: [], notes: [], folders: [], files: [], tasks: [] }, blobs = {};
+  const kids = { semesters: [['subjects', 'semester_id'], ['tasks', 'semester_id']], subjects: [['notes', 'subject_id'], ['files', 'subject_id'], ['folders', 'subject_id'], ['schedule', 'subject_id'], ['tasks', 'subject_id']], folders: [['folders', 'parent_id'], ['files', 'folder_id']] };
+  const now = () => new Date().toISOString();
+  const add = (t, row) => { const r = { id: uid(), created_at: now(), ...row }; db[t].push(r); return r; };
+  const del = (t, id) => { db[t] = db[t].filter(r => r.id !== id); (kids[t] || []).forEach(([k, c]) => db[k].filter(r => r[c] === id).forEach(r => del(k, r.id))); };
+  // datos de ejemplo
+  const s1 = add('semesters', { name: '2026-1' }), s2 = add('semesters', { name: '2026-2' });
+  const mk = (sem, name, teacher, room, color, slots) => { const s = add('subjects', { semester_id: sem.id, name, teacher, room, color }); slots.forEach(([day, a, b, r]) => add('schedule', { subject_id: s.id, day, start_time: a, end_time: b, room: r || '' })); return s; };
+  mk(s1, 'Álgebra Lineal', 'Prof. Ana Cardona', 'Bloque C · 204', COLORS[1], [[1, '09:00', '11:00'], [3, '09:00', '11:00']]);
+  mk(s1, 'Fundamentos de Programación', 'Prof. Luis Mejía', 'Sala 3', COLORS[5], [[2, '14:00', '16:00'], [4, '14:00', '16:00']]);
+  const cal = mk(s2, 'Cálculo Diferencial', 'Prof. Marta Gómez', 'Bloque A · 301', COLORS[0], [[1, '07:00', '09:00'], [3, '07:00', '09:00']]);
+  const poo = mk(s2, 'Programación Orientada a Objetos', 'Prof. Julián Ríos', 'Sala de sistemas 2', COLORS[4], [[2, '09:00', '11:00'], [4, '14:00', '16:00', 'Sala de sistemas 5']]);
+  const fis = mk(s2, 'Física Mecánica', 'Prof. Carlos Marín', 'Bloque B · 110', COLORS[2], [[2, '07:00', '09:00'], [5, '09:00', '11:00', 'Laboratorio 1']]);
+  mk(s2, 'Bases de Datos', 'Prof. Diana Ospina', 'Sala de sistemas 1', COLORS[3], [[1, '14:00', '16:00'], [4, '09:00', '11:00']]);
+  mk(s2, 'Inglés III', 'Prof. Sarah Wells', 'Bloque D · 402', COLORS[8], [[3, '11:00', '13:00'], [5, '14:00', '15:30']]);
+  add('notes', { subject_id: cal.id, title: 'Clase 1 · Límites', updated_at: now(), content: '<h2>Definición intuitiva</h2><p>El <b>límite</b> de f(x) cuando x tiende a <i>a</i> es el valor al que se acerca f(x), aunque f(a) no exista.</p><ul><li>Límites laterales: por izquierda y por derecha.</li><li>Si son distintos, el límite <span style="background-color:#ffe58a">no existe</span>.</li></ul><table><tbody><tr><td>x</td><td>1,9</td><td>1,99</td><td>2,01</td></tr><tr><td>f(x)</td><td>3,9</td><td>3,99</td><td>4,01</td></tr></tbody></table><blockquote>Tarea: ejercicios 1 al 12, sección 2.2.</blockquote>' });
+  add('notes', { subject_id: cal.id, title: 'Clase 2 · Continuidad', updated_at: now(), content: '<p>Una función es continua en a si el límite existe y coincide con f(a).</p>' });
+  add('notes', { subject_id: null, title: 'Fechas importantes', updated_at: now(), content: '<ul><li>Parciales: semana 8</li><li>Entrega del proyecto final: semana 15</li><li>Renovar el carné estudiantil</li></ul>' });
+  const fo = add('folders', { subject_id: cal.id, parent_id: null, name: 'Talleres' });
+  add('folders', { subject_id: cal.id, parent_id: null, name: 'Parciales' });
+  add('files', { subject_id: cal.id, folder_id: null, name: 'Programa del curso.pdf', path: 'demo/a', size: 248000 });
+  add('files', { subject_id: cal.id, folder_id: fo.id, name: 'Taller 1 - Límites.docx', path: 'demo/b', size: 54000 });
+  const rel = n => { const x = new Date(); x.setDate(x.getDate() + n); return ymd(x); };
+  const tk = (sb, title, type, n, time, done) => add('tasks', { semester_id: s2.id, subject_id: sb ? sb.id : null, title, type, due_date: rel(n), due_time: time || null, notes: '', done: !!done, done_at: done ? now() : null });
+  tk(null, 'Renovar el carné estudiantil', 'otro', -1); tk(cal, 'Taller 1 · Límites', 'tarea', 0, '23:59'); tk(poo, 'Entrega del proyecto: sistema de biblioteca', 'entrega', 2);
+  tk(fis, 'Parcial 1 · Cinemática', 'parcial', 4, '09:00'); tk(cal, 'Parcial 1', 'parcial', 15, '07:00'); tk(cal, 'Leer el capítulo 2', 'tarea', -3, null, true);
+  return {
+    async session() { return { id: 'demo', email: 'demo@ejemplo.com', user_metadata: {} }; },
+    async setPref() {},
+    async list(t) { return db[t].map(r => ({ ...r })); },
+    async get(t, id) { return { ...db[t].find(r => r.id === id) }; },
+    async insert(t, row) { return { ...add(t, row) }; },
+    async insertMany(t, rows) { return rows.map(r => ({ ...add(t, r) })); },
+    async update(t, id, patch) { return { ...Object.assign(db[t].find(r => r.id === id), patch) }; },
+    async remove(t, id) { del(t, id); },
+    async removeBy(t, col, val) { db[t].filter(r => r[col] === val).forEach(r => del(t, r.id)); },
+    async upload(path, file) { blobs[path] = URL.createObjectURL(file); },
+    async url(path) { if (!blobs[path]) throw new Error('Archivo de ejemplo: en el modo demostración no tiene contenido.'); return blobs[path]; },
+    async removeFiles(paths) { paths.forEach(p => delete blobs[p]); },
+    async removePrefix(prefix) { Object.keys(blobs).filter(k => k.startsWith(prefix + '/')).forEach(k => delete blobs[k]); }
+  };
+}
+
+/* ---------- estado ---------- */
+let api;
+const S = { user: null, prefs: {}, semesters: [], subjects: [], schedule: [], notes: [], folders: [], files: [], tasks: [],
+  semId: null, view: 'horario', subjectId: null, tab: 'bloc', noteId: null, folderId: null, q: '', authMode: 'in', calH0: 7 };
+const sub = id => S.subjects.find(s => s.id === id);
+const curSem = () => S.semesters.find(s => s.id === S.semId);
+const subs = () => S.subjects.filter(s => s.semester_id === S.semId).sort((a, b) => a.name.localeCompare(b.name, 'es'));
+const semTasks = () => S.tasks.filter(t => t.semester_id === S.semId);
+const sortTasks = l => [...l].sort((a, b) => String(a.due_date || '9999').localeCompare(String(b.due_date || '9999')) || String(a.due_time || '99').localeCompare(String(b.due_time || '99')));
+function dueInfo(t) {
+  if (!t.due_date) return { txt: 'Sin fecha', cls: '' };
+  const n = dayDiff(t.due_date), dt = new Date(t.due_date + 'T00:00');
+  const txt = n < 0 ? `Atrasado ${-n} día${n < -1 ? 's' : ''}` : n === 0 ? 'Hoy' : n === 1 ? 'Mañana' : n < 7 ? `${dt.toLocaleDateString('es-CO', { weekday: 'long' })} · en ${n} días` : dt.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
+  return { txt: txt.charAt(0).toUpperCase() + txt.slice(1) + (t.due_time ? ' · ' + fmtT(t.due_time) : ''), cls: n <= 0 ? 'red' : n <= 3 ? 'amber' : '' };
+}
+function urgency() { const p = semTasks().filter(t => !t.done && t.due_date); return { week: p.filter(t => dayDiff(t.due_date) <= 7).length, now: p.filter(t => dayDiff(t.due_date) <= 0).length }; }
+const sortNotes = l => [...l].sort((a, b) => String(b.updated_at || b.created_at).localeCompare(String(a.updated_at || a.created_at)));
+function defaultSemName() {
+  const last = S.semesters[S.semesters.length - 1], m = last && /^(\d{4})-([12])$/.exec(last.name);
+  if (m) return m[2] === '1' ? `${m[1]}-2` : `${+m[1] + 1}-1`;
+  const d = new Date(); return `${d.getFullYear()}-${d.getMonth() < 6 ? 1 : 2}`;
+}
+async function loadAll() {
+  const [se, su, sc, no, fo, fi, ta] = await Promise.all([api.list('semesters'), api.list('subjects'), api.list('schedule'), api.list('notes', NOTE_COLS), api.list('folders'), api.list('files'), api.list('tasks')]);
+  const old = new Map(S.notes.filter(n => n.content !== undefined).map(n => [n.id, n.content]));
+  if (!DEMO) no.forEach(n => { if (old.has(n.id)) n.content = old.get(n.id); });
+  Object.assign(S, { semesters: se, subjects: su, schedule: sc, notes: no, folders: fo, files: fi, tasks: ta });
+  if (!S.semesters.length) S.semesters.push(await api.insert('semesters', { name: defaultSemName() }));
+  for (const s of S.subjects.filter(s => !s.semester_id)) Object.assign(s, await api.update('subjects', s.id, { semester_id: S.semesters[0].id }));
+  if (!curSem()) S.semId = (S.semesters.find(s => s.id === S.prefs.sem) || S.semesters[S.semesters.length - 1]).id;
+}
+function setSem(id) { S.semId = id; S.view = 'horario'; S.subjectId = S.noteId = S.folderId = null; S.prefs.sem = id; api.setPref('sem', id).catch(() => {}); }
+function applyTheme() { document.documentElement.dataset.theme = S.prefs.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+
+/* ---------- vistas ---------- */
+function shell(title, body) {
+  const ss = subs(), used = S.files.reduce((a, f) => a + (f.size || 0), 0), u = urgency();
+  const bn = u.week ? `<span class="badge-n ${u.now ? 'red' : ''}">${u.week}</span>` : '';
+  return `<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo">${ic('cap', 20)}</span><span>Mi Aula</span></div>
+    <button class="sem-btn" data-a="semesters" title="Cambiar de semestre"><span><small>Semestre</small><b>${esc(curSem()?.name || '—')}</b></span>${ic('chev', 16)}</button>
+    <nav>
+      <button class="nav-i ${S.view === 'horario' ? 'on' : ''}" data-a="go" data-id="horario">${ic('cal')}<span>Horario</span></button>
+      <button class="nav-i ${S.view === 'pendientes' ? 'on' : ''}" data-a="go" data-id="pendientes">${ic('tasks')}<span>Pendientes</span>${bn}</button>
+      <button class="nav-i ${S.view === 'general' ? 'on' : ''}" data-a="go" data-id="general">${ic('note')}<span>Notas generales</span></button>
+    </nav>
+    <div class="side-h"><span>Materias</span><button class="icon-btn" data-a="newSubject" title="Nueva materia">${ic('plus', 16)}</button></div>
+    <div class="side-subs">${ss.length ? ss.map(s => `<button class="nav-i ${S.view === 'materia' && S.subjectId === s.id ? 'on' : ''}" data-a="openSubject" data-id="${s.id}"><span class="dot" style="--c:${esc(s.color)}"></span><span>${esc(s.name)}</span></button>`).join('') : '<p class="mut sm side-empty">Aún no hay materias en este semestre.</p>'}</div>
+    <div class="side-foot">
+      <div class="quota"><div class="bar"><i style="width:${Math.min(100, used / QUOTA * 100).toFixed(1)}%"></i></div><span class="mut">${fmtSize(used)} de 1 GB en documentos</span></div>
+      <div class="me"><span class="avatar">${esc((S.user.email || '?')[0].toUpperCase())}</span><span class="email">${esc(S.user.email)}</span>
+        <button class="icon-btn" data-a="theme" title="Tema claro / oscuro">${ic('moon', 16)}</button>
+        ${DEMO ? '' : `<button class="icon-btn" data-a="logout" title="Cerrar sesión">${ic('out', 16)}</button>`}</div>
+    </div>
+  </aside>
+  <div class="scrim" data-a="menu"></div>
+  <div class="main">
+    ${DEMO ? '<div class="demo">Modo demostración — nada de lo que hagas aquí se guarda.</div>' : ''}
+    <header class="mbar"><button class="icon-btn" data-a="menu">${ic('menu', 20)}</button><b>${esc(title)}</b><button class="icon-btn bell" data-a="go" data-id="pendientes" title="Pendientes">${ic('bell', 20)}${bn}</button></header>
+    <div class="content">${body}</div>
+  </div></div>`;
+}
+function vAuth() {
+  const up = S.authMode === 'up';
+  return `<div class="auth"><div class="auth-art">
+    <div class="brand"><span class="logo">${ic('cap', 20)}</span><span>Mi Aula</span></div>
+    <h1>Todo tu semestre, en un solo lugar.</h1>
+    <ul><li>${ic('cal')} Horario semanal por semestre</li><li>${ic('note')} Apuntes por clase, con imágenes y tablas</li><li>${ic('folder')} Documentos organizados por materia y carpeta</li></ul></div>
+  <div class="auth-form"><form data-form="auth">
+    <h2>${up ? 'Crea tu cuenta' : 'Bienvenido de nuevo'}</h2><p class="mut" style="margin-bottom:22px">${up ? 'Solo necesitas un correo y una contraseña.' : 'Ingresa para ver tus materias y apuntes.'}</p>
+    <label>Correo<input type="email" name="email" required autocomplete="email"></label>
+    <label>Contraseña<input type="password" name="password" required minlength="6" autocomplete="${up ? 'new-password' : 'current-password'}"></label>
+    <button class="btn primary" style="width:100%;justify-content:center;padding:11px">${up ? 'Crear cuenta' : 'Entrar'}</button>
+    <p class="sm mut" style="text-align:center;margin-top:16px">${up ? '¿Ya tienes cuenta?' : '¿Primera vez?'} <button type="button" class="btn sm" data-a="authMode">${up ? 'Iniciar sesión' : 'Crear cuenta'}</button></p>
+  </form></div></div>`;
+}
+
+/* --- horario tipo calendario --- */
+function layoutDay(list) {
+  const ev = list.map(c => ({ c, s: mins(c.start_time), e: mins(c.end_time) })).sort((a, b) => a.s - b.s || a.e - b.e), out = [];
+  let group = [], end = -1;
+  const flush = () => { const n = Math.max(...group.map(g => g.col)) + 1; group.forEach(g => g.cols = n); out.push(...group); group = []; };
+  for (const e of ev) {
+    if (group.length && e.s >= end) flush();
+    const used = group.filter(g => g.e > e.s).map(g => g.col); let col = 0; while (used.includes(col)) col++;
+    e.col = col; group.push(e); end = Math.max(end, e.e);
+  }
+  if (group.length) flush();
+  return out;
+}
+function taskRow(t, compact) {
+  const s = sub(t.subject_id), di = t.done ? { txt: t.due_date ? 'Era para el ' + fmtDate(t.due_date + 'T00:00') : 'Hecho', cls: '' } : dueInfo(t);
+  return `<div class="task ${t.done ? 'done' : di.cls} ${compact ? 'compact' : ''}"><button class="chk" data-a="toggleTask" data-id="${t.id}" title="${t.done ? 'Marcar como pendiente' : 'Marcar como hecho'}">${t.done ? ic('check', 14) : ''}</button>
+    <div class="grow" data-a="editTask" data-id="${t.id}" title="Editar"><b>${esc(t.title)}</b><span class="mut sm tmeta"><span class="ttype ${esc(t.type)}">${esc(TYPES[t.type] || 'Otro')}</span>${s ? `<span class="dot" style="--c:${esc(s.color)}"></span>${esc(s.name)}` : 'General'}</span>${compact ? `<span class="due ${di.cls}">${esc(di.txt)}</span>` : ''}</div>
+    ${compact ? '' : `<span class="due ${di.cls}">${esc(di.txt)}</span><span class="acts">${t.due_date && !t.done ? `<a class="icon-btn" href="${esc(gcalUrl(t))}" target="_blank" rel="noopener" title="Crear recordatorio en Google Calendar">${ic('bell', 15)}</a>` : ''}<button class="icon-btn danger" data-a="delTask" data-id="${t.id}" title="Eliminar">${ic('trash', 15)}</button></span>`}</div>`;
+}
+function gcalUrl(t) {
+  const s = sub(t.subject_id), d = t.due_date.replace(/-/g, ''), f = x => `${ymd(x).replace(/-/g, '')}T${pad(x.getHours())}${pad(x.getMinutes())}00`;
+  let dates;
+  if (t.due_time) { const a = new Date(`${t.due_date}T${hhmm(t.due_time)}`), b = new Date(a.getTime() + 36e5); dates = f(a) + '/' + f(b); }
+  else { const e = new Date(t.due_date + 'T00:00'); e.setDate(e.getDate() + 1); dates = d + '/' + ymd(e).replace(/-/g, ''); }
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(`${TYPES[t.type] || 'Pendiente'}: ${t.title}${s ? ' (' + s.name + ')' : ''}`) + '&dates=' + dates + '&details=' + encodeURIComponent(t.notes || '');
+}
+function vHorario() {
+  const ss = subs(), ids = new Set(ss.map(s => s.id)), cls = S.schedule.filter(c => ids.has(c.subject_id));
+  const d = new Date(), nowM = d.getHours() * 60 + d.getMinutes(), td = today();
+  const dateOf = dd => { const x = new Date(d); x.setDate(d.getDate() + dd - td); return x; };
+  const pend = sortTasks(semTasks().filter(t => !t.done)), dueOn = dd => pend.filter(t => t.due_date === ymd(dateOf(dd)));
+  const days = [1, 2, 3, 4, 5, 6, 7].filter(dd => dd <= 6 || cls.some(c => c.day === dd) || dueOn(dd).length);
+  const h0 = Math.max(0, Math.min(7, ...cls.map(c => Math.floor(mins(c.start_time) / 60)))), h1 = Math.min(24, Math.max(18, ...cls.map(c => Math.ceil(mins(c.end_time) / 60))));
+  S.calH0 = h0;
+  const hoy = cls.filter(c => c.day === td).sort(byStart), next = hoy.find(c => mins(c.end_time) > nowM), u = urgency(), soon = pend.slice(0, 7);
+  const hours = []; for (let h = h0; h < h1; h++) hours.push(h);
+  const col = dd => layoutDay(cls.filter(c => c.day === dd)).map(({ c, s, e, col, cols }) => {
+    const sb = sub(c.subject_id), h = Math.max(22, (e - s) / 60 * HH), room = c.room || sb.room;
+    return `<button class="ev" data-a="openSubject" data-id="${sb.id}" title="${esc(sb.name)}" style="--c:${esc(sb.color)};top:${(s - h0 * 60) / 60 * HH}px;height:${h}px;left:${col / cols * 100}%;width:${100 / cols}%"><div><b>${esc(sb.name)}</b>${h >= 44 ? `<span>${fmtT(c.start_time)} – ${fmtT(c.end_time)}</span>` : ''}${h >= 64 && room ? `<span>${esc(room)}</span>` : ''}</div></button>`;
+  }).join('');
+  return `<div class="pad">
+  <div class="vhead"><div><span class="eyebrow">Semestre ${esc(curSem()?.name)}</span><h1>Horario</h1></div>
+    <div class="row"><button class="btn" data-a="newTask">${ic('tasks', 16)} Nuevo pendiente</button><button class="btn primary" data-a="newSubject">${ic('plus', 16)} Nueva materia</button></div></div>
+  ${ss.length ? `<div class="today-strip"><span class="pill">${ic('cal', 15)} ${DAYS[td]}, ${d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long' })}</span>
+    <span class="pill">${hoy.length ? `${hoy.length} clase${hoy.length > 1 ? 's' : ''} hoy` : 'Hoy no tienes clases'}</span>
+    ${next ? `<span class="pill"><span class="dot" style="--c:${esc(sub(next.subject_id).color)}"></span>${mins(next.start_time) > nowM ? 'Sigue' : 'Ahora'}: ${esc(sub(next.subject_id).name)} · ${fmtT(next.start_time)}</span>` : ''}
+    ${u.now ? `<button class="pill red" data-a="go" data-id="pendientes">${ic('bell', 15)} ${u.now} pendiente${u.now > 1 ? 's' : ''} para hoy o atrasado${u.now > 1 ? 's' : ''}</button>` : ''}</div>`
+    : `<div class="callout"><div><b>Este semestre aún no tiene materias.</b><p class="mut sm">Crea la primera con su docente, aula y horarios: aparecerá sola en el calendario.</p></div><button class="btn primary" data-a="newSubject">${ic('plus', 16)} Nueva materia</button></div>`}
+  <div class="home"><div>
+  <div class="card cal-wrap"><div class="cal" style="--n:${days.length};--hh:${HH}px">
+    <div class="cal-head"><div class="cal-corner"></div>${days.map(dd => `<div class="cal-dh ${dd === td ? 'today' : ''}"><span>${DAYS[dd]} ${dateOf(dd).getDate()}</span></div>`).join('')}</div>
+    ${days.some(dd => dueOn(dd).length) ? `<div class="cal-body cal-due"><div class="cal-corner" title="Pendientes de esta semana">${ic('bell', 14)}</div>${days.map(dd => `<div class="due-cell">${dueOn(dd).map(t => `<button class="duechip ${t.type === 'parcial' ? 'ex' : ''}" data-a="editTask" data-id="${t.id}" title="${esc(TYPES[t.type] || '')}: ${esc(t.title)}">${esc(t.title)}</button>`).join('')}</div>`).join('')}</div>` : ''}
+    <div class="cal-body"><div class="cal-times">${hours.map(h => `<div><span>${h % 12 || 12} ${h < 12 ? 'am' : 'pm'}</span></div>`).join('')}</div>
+      ${days.map(dd => `<div class="cal-col ${dd === td ? 'today' : ''}" data-a="slot" data-id="${dd}" style="height:${hours.length * HH}px">${col(dd)}${dd === td && nowM >= h0 * 60 && nowM <= h1 * 60 ? `<div class="now" style="top:${(nowM - h0 * 60) / 60 * HH}px"></div>` : ''}</div>`).join('')}</div>
+  </div></div>
+  <p class="mut sm hint">Toca una clase para abrir la materia, o un espacio vacío para crear una materia en ese horario.</p></div>
+  <aside class="card home-side"><div class="hs-head"><b>Pendientes</b><button class="icon-btn" data-a="newTask" title="Nuevo pendiente">${ic('plus', 16)}</button></div>
+    ${soon.length ? soon.map(t => taskRow(t, true)).join('') : '<p class="mut sm" style="padding:2px 4px 8px">No tienes pendientes. Anota tus tareas y parciales con su fecha para que no se te pasen.</p>'}
+    <button class="btn sm" data-a="go" data-id="pendientes" style="width:100%;justify-content:center;margin-top:6px">Ver todos${pend.length > soon.length ? ` (${pend.length})` : ''}</button></aside>
+  </div></div>`;
+}
+function vPendientes() {
+  const all = semTasks(), pend = sortTasks(all.filter(t => !t.done)), done = all.filter(t => t.done).sort((a, b) => String(b.done_at || '').localeCompare(String(a.done_at || '')));
+  const n = t => dayDiff(t.due_date);
+  const groups = [['Atrasados', 'red', t => t.due_date && n(t) < 0], ['Hoy', 'red', t => t.due_date && n(t) === 0], ['Próximos 7 días', '', t => t.due_date && n(t) > 0 && n(t) <= 7], ['Más adelante', '', t => t.due_date && n(t) > 7], ['Sin fecha', '', t => !t.due_date]];
+  return `<div class="pad"><div class="vhead"><div><span class="eyebrow">Semestre ${esc(curSem()?.name)}</span><h1>Pendientes</h1></div><button class="btn primary" data-a="newTask">${ic('plus', 16)} Nuevo pendiente</button></div>
+  <div class="tasks-wrap">${groups.map(([name, c, f]) => { const l = pend.filter(f); return l.length ? `<div class="grp ${c}">${name} · ${l.length}</div>${l.map(t => taskRow(t)).join('')}` : ''; }).join('')}
+  ${!pend.length ? `<div class="empty card"><div><div class="big">${ic('check', 26)}</div><b>Estás al día</b><p class="sm">Anota aquí tareas, parciales y entregas con su fecha.</p></div></div>` : ''}
+  ${done.length ? `<div class="grp">Completados · ${done.length}</div>${done.slice(0, 40).map(t => taskRow(t)).join('')}` : ''}</div></div>`;
+}
+function tasksPane(s) {
+  const l = S.tasks.filter(t => t.subject_id === s.id), pend = sortTasks(l.filter(t => !t.done)), done = l.filter(t => t.done);
+  return `<div class="docs"><div class="vhead" style="align-items:center"><b>Tareas, parciales y entregas de esta materia</b><button class="btn primary" data-a="newTask">${ic('plus', 16)} Nuevo pendiente</button></div>
+  <div class="tasks-wrap">${pend.map(t => taskRow(t)).join('')}${!pend.length ? '<div class="drop-hint"><b>Nada pendiente en esta materia</b><p class="sm">Agrega el próximo parcial o la próxima entrega.</p></div>' : ''}
+  ${done.length ? `<div class="grp">Completados · ${done.length}</div>${done.map(t => taskRow(t)).join('')}` : ''}</div></div>`;
+}
+function taskForm(t) {
+  const sid = t ? t.subject_id : (S.view === 'materia' ? S.subjectId : '');
+  openForm(t ? 'Editar pendiente' : 'Nuevo pendiente', `
+    <label>¿Qué tienes que hacer?<input type="text" name="title" required maxlength="120" value="${esc(t?.title)}" placeholder="Ej: Parcial 1, Taller de límites…"></label>
+    <div class="two"><label>Tipo<select name="type">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}" ${k === (t?.type || 'tarea') ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label>Materia<select name="subject_id"><option value="">General</option>${subs().map(x => `<option value="${x.id}" ${x.id === sid ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label></div>
+    <div class="two"><label>Fecha<input type="date" name="due_date" value="${esc(t?.due_date)}"></label><label>Hora (opcional)<input type="time" name="due_time" value="${hhmm(t?.due_time)}"></label></div>
+    <label>Detalles (opcional)<textarea name="notes" rows="3" maxlength="1000" placeholder="Temas, página, lugar…">${esc(t?.notes)}</textarea></label>`,
+    async d => {
+      const row = { title: d.title.trim(), type: d.type, subject_id: d.subject_id || null, due_date: d.due_date || null, due_time: d.due_date && d.due_time ? d.due_time : null, notes: d.notes.trim() };
+      if (t) Object.assign(t, await api.update('tasks', t.id, row)); else S.tasks.push(await api.insert('tasks', { ...row, semester_id: S.semId, done: false }));
+    }, t ? `<button type="button" class="btn danger" data-a="delTask" data-id="${t.id}" style="margin-right:auto">Eliminar</button>` : '');
+}
+
+/* --- bloc de notas (compartido por materias y notas generales) --- */
+const scopeNotes = sid => S.notes.filter(n => (n.subject_id || null) === (sid || null));
+function noteItems(sid) {
+  const q = S.q.trim().toLowerCase(), l = sortNotes(scopeNotes(sid)).filter(n => !q || (n.title || '').toLowerCase().includes(q));
+  return l.length ? l.map(n => `<button class="nb-item ${n.id === S.noteId ? 'on' : ''}" data-a="openNote" data-id="${n.id}"><span class="t">${esc(n.title || 'Sin título')}</span><span class="mut sm">${fmtDate(n.updated_at || n.created_at)}</span></button>`).join('')
+    : `<p class="mut sm" style="padding:14px">${q ? 'Ningún apunte coincide.' : 'Todavía no hay apuntes aquí.'}</p>`;
+}
+const tb = (cmd, inner, title, val = '') => `<button type="button" class="tb" data-cmd="${cmd}" data-val="${val}" title="${title}">${inner}</button>`;
+function notesPane(sid, top) {
+  const list = scopeNotes(sid);
+  let cur = list.find(n => n.id === S.noteId);
+  if (!cur && list.length && matchMedia('(min-width:861px)').matches) { cur = sortNotes(list)[0]; S.noteId = cur.id; }
+  if (!cur) S.noteId = null;
+  return `<div class="nb ${cur ? 'has' : ''} ${top ? 'top' : ''}">
+  <div class="nb-list"><div class="nb-tools"><input type="search" id="nq" placeholder="Buscar…" value="${esc(S.q)}"><button class="btn primary" data-a="newNote" title="Nuevo apunte">${ic('plus', 16)}</button></div><div id="nlist">${noteItems(sid)}</div></div>
+  <div class="nb-edit">${cur ? `<div class="ed-bar">
+      <button class="icon-btn back-m" data-a="closeNote" title="Volver">${ic('left')}</button>
+      ${tb('undo', ic('undo', 16), 'Deshacer')}${tb('redo', ic('redo', 16), 'Rehacer')}<span class="sep"></span>
+      ${tb('formatBlock', 'T1', 'Título', 'h1')}${tb('formatBlock', 'T2', 'Subtítulo', 'h2')}${tb('formatBlock', '¶', 'Texto normal', 'p')}<span class="sep"></span>
+      ${tb('bold', '<b>N</b>', 'Negrita')}${tb('italic', '<i>K</i>', 'Cursiva')}${tb('underline', '<u>S</u>', 'Subrayado')}${tb('hl', ic('hl', 16), 'Resaltar')}<span class="sep"></span>
+      ${tb('insertUnorderedList', ic('ul', 16), 'Lista')}${tb('insertOrderedList', ic('ol', 16), 'Lista numerada')}${tb('formatBlock', ic('quote', 16), 'Cita', 'blockquote')}<span class="sep"></span>
+      ${tb('image', ic('img', 16), 'Insertar imagen')}${tb('table', ic('table', 16), 'Insertar tabla')}${tb('row', '+F', 'Agregar fila a la tabla')}${tb('col', '+C', 'Agregar columna a la tabla')}${tb('link', ic('link', 16), 'Enlace')}
+      <span class="grow"></span><span id="saved">Guardado</span>
+      <button class="icon-btn" data-a="printNote" title="Imprimir o guardar como PDF">${ic('print', 16)}</button>
+      <button class="icon-btn danger" data-a="delNote" data-id="${cur.id}" title="Eliminar apunte">${ic('trash', 16)}</button>
+      <input type="file" id="imgpick" accept="image/*" multiple hidden></div>
+    <div class="paper-wrap"><div class="paper">
+      <input class="doc-title" id="nt" placeholder="Título del apunte" value="${esc(cur.title)}" maxlength="120">
+      <div class="doc-meta">${esc(sid ? sub(sid)?.name : 'Notas generales')} · Creado el ${fmtDate(cur.created_at)}</div>
+      <div class="doc" id="ed" data-id="${cur.id}" data-loading="1" data-ph="Empieza a escribir. Puedes pegar o arrastrar imágenes aquí."></div>
+    </div></div>` : `<div class="empty"><div><div class="big">${ic('note', 26)}</div><b>${list.length ? 'Elige un apunte' : 'Crea tu primer apunte'}</b><p class="sm">Un apunte por clase, con texto, imágenes y tablas.</p><button class="btn primary" data-a="newNote" style="margin-top:12px">${ic('plus', 16)} Nuevo apunte</button></div></div>`}</div></div>`;
+}
+function vGeneral() {
+  return `<div class="pad" style="padding-bottom:20px"><div class="vhead" style="margin:0"><div><span class="eyebrow">Para todo lo que no es de una sola materia</span><h1>Notas generales</h1></div></div></div>${notesPane(null, true)}`;
+}
+
+/* --- materia --- */
+function folderPath(f) { const p = []; for (; f; f = S.folders.find(x => x.id === f.parent_id)) p.unshift(f); return p; }
+function docsPane(s) {
+  const cur = S.folders.find(f => f.id === S.folderId && f.subject_id === s.id) || null; if (!cur) S.folderId = null;
+  const cid = cur ? cur.id : null;
+  const folders = S.folders.filter(f => f.subject_id === s.id && (f.parent_id || null) === cid).sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  const files = S.files.filter(f => f.subject_id === s.id && (f.folder_id || null) === cid).sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
+  const count = f => S.files.filter(x => x.folder_id === f.id).length + S.folders.filter(x => x.parent_id === f.id).length;
+  return `<div class="docs" data-drop>
+  <div class="vhead" style="align-items:center"><div class="crumbs"><button data-a="openFolder" data-id="">Documentos</button>${folderPath(cur).map(f => `${ic('right', 14)}<button data-a="openFolder" data-id="${f.id}">${esc(f.name)}</button>`).join('')}</div>
+    <div class="row"><button class="btn" data-a="newFolder">${ic('folder', 16)} Nueva carpeta</button><label class="btn primary" style="margin:0">${ic('up', 16)} Subir archivos<input type="file" multiple data-upload hidden></label></div></div>
+  ${folders.length ? `<div class="folders">${folders.map(f => `<div class="folder" data-a="openFolder" data-id="${f.id}"><span class="fi">${ic('folder', 22)}</span><span class="grow"><b>${esc(f.name)}</b><span class="mut sm">${count(f)} elemento(s)</span></span><span class="acts"><button class="icon-btn" data-a="renFolder" data-id="${f.id}" title="Renombrar">${ic('edit', 15)}</button><button class="icon-btn danger" data-a="delFolder" data-id="${f.id}" title="Eliminar">${ic('trash', 15)}</button></span></div>`).join('')}</div>` : ''}
+  ${files.length ? `<div class="files">${files.map(f => `<div class="file" data-a="openFile" data-id="${f.id}"><span class="badge ${extClass(f.name)}">${esc(ext(f.name))}</span><span class="grow"><b>${esc(f.name)}</b><span class="mut sm">${fmtSize(f.size || 0)} · ${fmtDate(f.created_at)}</span></span><span class="acts"><button class="icon-btn" data-a="moveFile" data-id="${f.id}" title="Mover a otra carpeta">${ic('move', 15)}</button><button class="icon-btn" data-a="renFile" data-id="${f.id}" title="Renombrar">${ic('edit', 15)}</button><button class="icon-btn danger" data-a="delFile" data-id="${f.id}" title="Eliminar">${ic('trash', 15)}</button></span></div>`).join('')}</div>` : ''}
+  ${!files.length ? `<div class="drop-hint">${ic('up', 26).replace('class="ic"', 'class="ic" style="margin:0 auto 8px"')}<b>${folders.length ? 'No hay archivos sueltos aquí' : 'Esta carpeta está vacía'}</b><p class="sm">Arrastra archivos hasta aquí o usa “Subir archivos”. PDF, Word, fotos… hasta 50 MB cada uno.</p></div>` : ''}</div>`;
+}
+function vMateria() {
+  const s = sub(S.subjectId), cls = S.schedule.filter(c => c.subject_id === s.id).sort((a, b) => a.day - b.day || byStart(a, b));
+  return `<div class="subj-head" style="--c:${esc(s.color)}">
+    <div class="subj-top"><div><span class="eyebrow">Semestre ${esc(curSem()?.name)}</span><h1>${esc(s.name)}</h1></div>
+      <div class="row"><button class="btn" data-a="editSubject" data-id="${s.id}">${ic('edit', 16)} Editar</button><button class="btn danger" data-a="delSubject" data-id="${s.id}" title="Eliminar materia">${ic('trash', 16)}</button></div></div>
+    <div class="chips">${s.teacher ? `<span class="chip">${ic('user', 14)} ${esc(s.teacher)}</span>` : ''}${s.room ? `<span class="chip">${ic('pin', 14)} ${esc(s.room)}</span>` : ''}${cls.map(c => `<span class="chip tint">${ic('clock', 14)} ${DAYS[c.day].slice(0, 3)} ${fmtT(c.start_time)} – ${fmtT(c.end_time)}${c.room && c.room !== s.room ? ' · ' + esc(c.room) : ''}</span>`).join('')}${!cls.length ? '<span class="chip">Sin horario asignado</span>' : ''}</div>
+    <div class="tabs"><button data-a="tab" data-id="bloc" class="${S.tab === 'bloc' ? 'on' : ''}">${ic('note', 16)} Bloc de notas</button><button data-a="tab" data-id="docs" class="${S.tab === 'docs' ? 'on' : ''}">${ic('folder', 16)} Documentos</button><button data-a="tab" data-id="tareas" class="${S.tab === 'tareas' ? 'on' : ''}">${ic('tasks', 16)} Pendientes${S.tasks.some(t => t.subject_id === s.id && !t.done) ? ` (${S.tasks.filter(t => t.subject_id === s.id && !t.done).length})` : ''}</button></div>
+  </div>${S.tab === 'bloc' ? notesPane(s.id) : S.tab === 'docs' ? docsPane(s) : tasksPane(s)}`;
+}
+function render() {
+  if (dirty) { capture(); flushSave(); }
+  hideImgBar();
+  if (!S.user) { app.innerHTML = vAuth(); return; }
+  if (S.view === 'materia' && !sub(S.subjectId)) S.view = 'horario';
+  const [title, body] = S.view === 'materia' ? [sub(S.subjectId).name, vMateria()] : S.view === 'general' ? ['Notas generales', vGeneral()] : S.view === 'pendientes' ? ['Pendientes', vPendientes()] : ['Horario', vHorario()];
+  app.innerHTML = shell(title, body);
+  mountEditor();
+  if (S.view === 'horario') { const t = $('.cal-dh.today'), w = $('.cal-wrap'); if (t && w && w.scrollWidth > w.clientWidth) w.scrollLeft = t.offsetLeft - 60; }
+}
+
+/* ---------- diálogos ---------- */
+function show(cls = '') { dlg.className = cls; if (!dlg.open) dlg.showModal(); }
+function openForm(title, fields, onSubmit, extra = '') {
+  dlg.oncancel = null;
+  dlg.innerHTML = `<form><h3>${esc(title)}</h3>${fields}<div class="row end dfoot">${extra}<button type="button" class="btn" data-a="closeDlg">Cancelar</button><button class="btn primary">Guardar</button></div></form>`;
+  const f = dlg.querySelector('form');
+  f.onsubmit = async ev => { ev.preventDefault(); try { await onSubmit(Object.fromEntries(new FormData(f))); dlg.close(); render(); } catch (e) { toast(errMsg(e)); } };
+  show();
+}
+function ask(text, label = 'Eliminar') {
+  return new Promise(res => {
+    dlg.innerHTML = `<h3>¿Seguro?</h3><p class="mut">${esc(text)}</p><div class="row end dfoot"><button class="btn" id="no">Cancelar</button><button class="btn danger" id="yes">${label}</button></div>`;
+    const done = v => { dlg.close(); res(v); };
+    $('#no').onclick = () => done(false); $('#yes').onclick = () => done(true); dlg.oncancel = () => res(false);
+    show();
+  });
+}
+function promptText(title, value = '', ph = '') {
+  return new Promise(res => {
+    dlg.innerHTML = `<form><h3>${esc(title)}</h3><input type="text" id="pv" value="${esc(value)}" placeholder="${esc(ph)}" maxlength="120" required><div class="row end dfoot"><button type="button" class="btn" id="no">Cancelar</button><button class="btn primary">Aceptar</button></div></form>`;
+    dlg.querySelector('form').onsubmit = e => { e.preventDefault(); const v = $('#pv').value.trim(); dlg.close(); res(v || null); };
+    $('#no').onclick = () => { dlg.close(); res(null); }; dlg.oncancel = () => res(null);
+    show(); $('#pv').select();
+  });
+}
+function semDialog() {
+  dlg.oncancel = null;
+  dlg.innerHTML = `<h3>Semestres</h3><p class="mut sm" style="margin:-8px 0 14px">Cada semestre conserva sus propias materias, apuntes y documentos.</p>
+  ${S.semesters.map(s => `<div class="sem ${s.id === S.semId ? 'on' : ''}"><button class="sem-pick" data-a="pickSem" data-id="${s.id}"><b>${esc(s.name)}</b><span class="mut sm">${S.subjects.filter(x => x.semester_id === s.id).length} materia(s)${s.id === S.semId ? ' · actual' : ''}</span></button>
+    <button class="icon-btn" data-a="renSem" data-id="${s.id}" title="Renombrar">${ic('edit', 15)}</button><button class="icon-btn danger" data-a="delSem" data-id="${s.id}" title="Eliminar">${ic('trash', 15)}</button></div>`).join('')}
+  <div class="row end dfoot"><button class="btn" data-a="closeDlg">Cerrar</button><button class="btn primary" data-a="newSem">${ic('plus', 16)} Nuevo semestre</button></div>`;
+  show();
+}
+const slotRow = (c = {}) => `<div class="slot"><select class="s-day" title="Día">${DAYS.slice(1).map((n, i) => `<option value="${i + 1}" ${c.day === i + 1 ? 'selected' : ''}>${n}</option>`).join('')}</select>
+  <input type="time" class="s-a" value="${hhmm(c.start_time) || '07:00'}" required title="Hora de inicio"><input type="time" class="s-b" value="${hhmm(c.end_time) || '09:00'}" required title="Hora de fin">
+  <input type="text" class="s-room" placeholder="Otra aula" value="${esc(c.room)}" maxlength="40" title="Solo si ese día cambia de aula"><button type="button" class="icon-btn danger" data-a="rmSlot" title="Quitar horario">${ic('x', 16)}</button></div>`;
+function subjectForm(s, pre) {
+  const slots = s ? S.schedule.filter(c => c.subject_id === s.id).sort((a, b) => a.day - b.day || byStart(a, b)) : [pre || { day: 1 }];
+  const cur = s ? s.color : COLORS[subs().length % COLORS.length];
+  dlg.oncancel = null;
+  dlg.innerHTML = `<form><h3>${s ? 'Editar materia' : 'Nueva materia'}</h3>
+    <label>Nombre de la materia<input type="text" name="name" required maxlength="70" value="${esc(s?.name)}" placeholder="Ej: Cálculo Diferencial"></label>
+    <div class="two"><label>Docente<input type="text" name="teacher" maxlength="70" value="${esc(s?.teacher)}" placeholder="Nombre del profesor"></label>
+      <label>Aula<input type="text" name="room" maxlength="40" value="${esc(s?.room)}" placeholder="Ej: Bloque A · 301"></label></div>
+    <div class="fs-title">Color</div><div class="swatches">${COLORS.map(c => `<label><input type="radio" name="color" value="${c}" ${c === cur ? 'checked' : ''}><span style="--c:${c}"></span></label>`).join('')}</div>
+    <div class="fs-title">Horarios de la semana</div><div id="slots">${slots.map(slotRow).join('')}</div>
+    <button type="button" class="btn sm" data-a="addSlot">${ic('plus', 14)} Agregar otro día u horario</button>
+    <div class="row end dfoot"><button type="button" class="btn" data-a="closeDlg">Cancelar</button><button class="btn primary" id="sv">${s ? 'Guardar cambios' : 'Crear materia'}</button></div></form>`;
+  const f = dlg.querySelector('form');
+  f.onsubmit = async ev => {
+    ev.preventDefault();
+    const d = Object.fromEntries(new FormData(f));
+    const rows = [...f.querySelectorAll('.slot')].map(r => ({ day: +r.querySelector('.s-day').value, start_time: r.querySelector('.s-a').value, end_time: r.querySelector('.s-b').value, room: r.querySelector('.s-room').value.trim() }));
+    if (rows.some(r => r.end_time <= r.start_time)) return toast('En cada horario, la hora de fin debe ser posterior a la de inicio.');
+    $('#sv').disabled = true;
+    try {
+      const row = { name: d.name.trim(), teacher: d.teacher.trim(), room: d.room.trim(), color: d.color || cur };
+      let sb = s;
+      if (s) { Object.assign(s, await api.update('subjects', s.id, row)); await api.removeBy('schedule', 'subject_id', s.id); S.schedule = S.schedule.filter(c => c.subject_id !== s.id); }
+      else { sb = await api.insert('subjects', { ...row, semester_id: S.semId }); S.subjects.push(sb); S.view = 'horario'; }
+      S.schedule.push(...await api.insertMany('schedule', rows.map(r => ({ ...r, subject_id: sb.id }))));
+      dlg.close(); render(); toast(s ? 'Materia actualizada.' : 'Materia creada: ya está en tu horario.');
+    } catch (e) { toast(errMsg(e)); if ($('#sv')) $('#sv').disabled = false; }
+  };
+  show('wide');
+}
+
+/* ---------- editor de apuntes ---------- */
+const OKTAG = new Set('P BR B STRONG I EM U S STRIKE H1 H2 H3 UL OL LI BLOCKQUOTE A IMG TABLE TBODY THEAD TR TD TH SPAN DIV PRE CODE HR'.split(' '));
+const DROPTAG = new Set('SCRIPT STYLE IFRAME OBJECT EMBED LINK META TITLE HEAD NOSCRIPT SVG MATH FORM INPUT BUTTON TEXTAREA SELECT VIDEO AUDIO'.split(' '));
+function sanitize(html) {
+  const doc = new DOMParser().parseFromString('<body>' + (html || ''), 'text/html');
+  const walk = node => {
+    for (const e of [...node.children]) {
+      if (DROPTAG.has(e.tagName)) { e.remove(); continue; }
+      walk(e);
+      if (!OKTAG.has(e.tagName)) { e.replaceWith(...e.childNodes); continue; }
+      const bg = e.style.backgroundColor, ta = e.style.textAlign;
+      for (const a of [...e.attributes]) {
+        const n = a.name, v = a.value.trim();
+        const keep = (n === 'href' && e.tagName === 'A' && /^(https?:|mailto:)/i.test(v)) || (n === 'src' && e.tagName === 'IMG' && /^(https?:|data:image\/|blob:)/i.test(v))
+          || ((n === 'data-path' || n === 'data-w') && e.tagName === 'IMG') || ((n === 'colspan' || n === 'rowspan') && /^\d+$/.test(v));
+        if (!keep) e.removeAttribute(n);
+      }
+      const st = [bg && 'background-color:' + bg, ta && 'text-align:' + ta].filter(Boolean).join(';');
+      if (st) e.setAttribute('style', st);
+      if (e.tagName === 'A') { e.target = '_blank'; e.rel = 'noopener'; }
+    }
+  };
+  walk(doc.body);
+  return doc.body.innerHTML;
+}
+function serialize(ed) { const c = ed.cloneNode(true); c.querySelectorAll('img').forEach(i => { i.classList.remove('sel'); i.removeAttribute('class'); if (i.dataset.path) i.removeAttribute('src'); }); return c.innerHTML; }
+let edNote = null, dirty = null, saveT, selImg = null;
+const setStatus = t => { const s = $('#saved'); if (s) s.textContent = t; };
+async function mountEditor() {
+  const ed = $('#ed'); edNote = null; if (!ed) return;
+  const n = S.notes.find(x => x.id === ed.dataset.id); if (!n) return;
+  if (n.content === undefined) {
+    try { n.content = (await api.get('notes', n.id)).content || ''; } catch (e) { toast(errMsg(e)); return; }
+    if (!ed.isConnected) return;
+  }
+  ed.innerHTML = sanitize(n.content);
+  ed.contentEditable = 'true'; delete ed.dataset.loading; edNote = n;
+  try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch {}
+  ed.querySelectorAll('img[data-path]').forEach(async im => { try { im.src = await api.url(im.dataset.path); } catch { im.alt = 'Imagen no disponible'; } });
+  if (!n.title && !n.content) $('#nt').focus();
+}
+function capture() { const ed = $('#ed'); if (ed && edNote && !ed.dataset.loading && ed.dataset.id === edNote.id) { edNote.title = $('#nt').value; edNote.content = serialize(ed); } }
+function queueSave() {
+  if (!edNote || !$('#ed') || $('#ed').dataset.loading) return;
+  dirty = edNote; edNote.updated_at = new Date().toISOString(); setStatus('Guardando…');
+  const t = document.querySelector(`.nb-item[data-id="${edNote.id}"] .t`); if (t) t.textContent = $('#nt').value || 'Sin título';
+  clearTimeout(saveT); saveT = setTimeout(flushSave, 1000);
+}
+async function flushSave() {
+  clearTimeout(saveT); const n = dirty; if (!n) return; capture(); dirty = null;
+  try { await api.update('notes', n.id, { title: n.title, content: n.content, updated_at: n.updated_at }); if (!dirty) setStatus('Guardado'); }
+  catch (e) { dirty = dirty || n; setStatus('Sin guardar'); toast(errMsg(e)); }
+}
+async function shrink(file, maxDim = 2200, minSize = 1.5 * 1048576) {   // reduce fotos grandes para ahorrar espacio
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < minSize) return file;
+  try {
+    const bmp = await createImageBitmap(file), k = Math.min(1, maxDim / Math.max(bmp.width, bmp.height));
+    const cv = Object.assign(document.createElement('canvas'), { width: Math.round(bmp.width * k), height: Math.round(bmp.height * k) });
+    const cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(bmp, 0, 0, cv.width, cv.height);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.84));
+    return blob && blob.size < file.size ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file;
+  } catch { return file; }
+}
+async function insertImages(files) {
+  const n = edNote, ed = $('#ed'); if (!n || !ed) return;
+  const sel = getSelection(), range = sel.rangeCount && ed.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null;
+  if (range) range.collapse(false);
+  for (const f0 of files) {
+    toast('Subiendo imagen…');
+    try {
+      const f = await shrink(f0, 1600, 300 * 1024), path = `${S.user.id}/notas/${n.id}/${uid()}.${f.type === 'image/png' ? 'png' : f.type === 'image/gif' ? 'gif' : f.type === 'image/webp' ? 'webp' : 'jpg'}`;
+      if (f.size > MAX_FILE) { toast('La imagen supera los 50 MB.'); continue; }
+      await api.upload(path, f); const url = await api.url(path);
+      if (edNote !== n || !ed.isConnected) return;
+      const img = document.createElement('img'); img.src = url; img.dataset.path = path;
+      if (range) { range.insertNode(img); range.setStartAfter(img); range.collapse(true); } else ed.append(img);
+      toast('Imagen agregada.');
+    } catch (e) { toast('No se pudo subir la imagen: ' + errMsg(e)); }
+  }
+  queueSave();
+}
+const curCell = () => { const a = getSelection().anchorNode, e = a && (a.nodeType === 1 ? a : a.parentElement); const c = e && e.closest('td,th'); return c && c.closest('#ed') ? c : null; };
+const newCell = () => { const td = document.createElement('td'); td.innerHTML = '<br>'; return td; };
+function addRow(cell) { const tr = cell.parentElement, r = document.createElement('tr'); for (let i = 0; i < tr.children.length; i++) r.append(newCell()); tr.after(r); return r; }
+function addCol(cell) { const i = cell.cellIndex; cell.closest('table').querySelectorAll('tr').forEach(tr => (tr.children[i] || tr.lastElementChild).after(newCell())); }
+function caretIn(node) { const r = document.createRange(); r.selectNodeContents(node); r.collapse(false); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+async function runCmd(cmd, val) {
+  const ed = $('#ed'); if (!ed || !edNote) return;
+  if (cmd === 'image') return $('#imgpick').click();
+  if (cmd === 'row' || cmd === 'col') { const c = curCell(); if (!c) return toast('Pon el cursor dentro de una tabla.'); cmd === 'row' ? addRow(c) : addCol(c); return queueSave(); }
+  if (cmd === 'link') {
+    const s = getSelection(), r = s.rangeCount && ed.contains(s.anchorNode) ? s.getRangeAt(0).cloneRange() : null;
+    let u = await promptText('Insertar enlace', '', 'https://…'); if (!u) return;
+    if (!/^(https?:|mailto:)/i.test(u)) u = 'https://' + u;
+    ed.focus(); if (r) { s.removeAllRanges(); s.addRange(r); }
+    if (r && !r.collapsed) document.execCommand('createLink', false, u); else document.execCommand('insertHTML', false, `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a>`);
+    return queueSave();
+  }
+  ed.focus();
+  if (cmd === 'table') document.execCommand('insertHTML', false, '<table><tbody>' + '<tr><td><br></td><td><br></td><td><br></td></tr>'.repeat(3) + '</tbody></table><p><br></p>');
+  else if (cmd === 'hl') { const on = /255,\s*229,\s*138|ffe58a/i.test(String(document.queryCommandValue('backColor'))); document.execCommand('hiliteColor', false, on ? 'transparent' : '#ffe58a') || document.execCommand('backColor', false, on ? 'transparent' : '#ffe58a'); }
+  else if (cmd === 'formatBlock') document.execCommand('formatBlock', false, '<' + val + '>');
+  else document.execCommand(cmd, false, null);
+  queueSave();
+}
+function hideImgBar() { $('#imgbar').style.display = 'none'; if (selImg) selImg.classList.remove('sel'); selImg = null; }
+function showImgBar(img) { hideImgBar(); selImg = img; img.classList.add('sel'); const r = img.getBoundingClientRect(), b = $('#imgbar'); b.style.display = 'flex'; b.style.left = Math.max(8, r.left) + 'px'; b.style.top = Math.max(8, r.top - 40) + 'px'; }
+
+/* ---------- documentos ---------- */
+async function uploadFiles(list) {
+  const sid = S.subjectId, fid = S.folderId; let n = 0;
+  for (let f of list) {
+    toast(`Subiendo ${f.name}…`);
+    f = await shrink(f);
+    if (f.size > MAX_FILE) { toast(`"${f.name}" supera los 50 MB permitidos.`); continue; }
+    const path = `${S.user.id}/${sid}/${uid()}-${safeName(f.name)}`;
+    try {
+      await api.upload(path, f);
+      try { S.files.push(await api.insert('files', { subject_id: sid, folder_id: fid, name: f.name, path, size: f.size, mime: f.type })); n++; }
+      catch (e) { await api.removeFiles([path]).catch(() => {}); throw e; }
+    } catch (e) { toast(`No se pudo subir "${f.name}": ${errMsg(e)}`); }
+  }
+  if (n) toast(`${n} archivo(s) subido(s).`);
+  render();
+}
+async function purgeSubjects(ids) {   // borra del almacenamiento los archivos e imágenes de esas materias
+  const set = new Set(ids);
+  await api.removeFiles(S.files.filter(f => set.has(f.subject_id)).map(f => f.path));
+  for (const n of S.notes.filter(n => set.has(n.subject_id))) await api.removePrefix(`${S.user.id}/notas/${n.id}`).catch(() => {});
+}
+
+/* ---------- acciones ---------- */
+const A = {
+  go(v) { S.view = v; S.noteId = null; S.q = ''; render(); },
+  menu() { $('.app').classList.toggle('nav-open'); },
+  authMode() { S.authMode = S.authMode === 'in' ? 'up' : 'in'; render(); },
+  async logout() { await flushSave(); await api.signOut(); location.reload(); },
+  theme() { S.prefs.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(); api.setPref('theme', S.prefs.theme).catch(() => {}); },
+  closeDlg() { dlg.close(); },
+  tab(t) { S.tab = t; S.q = ''; render(); },
+  // semestres
+  semesters() { semDialog(); },
+  pickSem(id) { dlg.close(); setSem(id); render(); },
+  async newSem() { const name = await promptText('Nuevo semestre', defaultSemName(), 'Ej: 2027-1'); if (!name) return semDialog(); const s = await api.insert('semesters', { name }); S.semesters.push(s); setSem(s.id); render(); toast(`Semestre ${name} creado. El anterior sigue guardado.`); },
+  async renSem(id) { const s = S.semesters.find(x => x.id === id), name = await promptText('Renombrar semestre', s.name); if (name) Object.assign(s, await api.update('semesters', id, { name })); render(); semDialog(); },
+  async delSem(id) {
+    const s = S.semesters.find(x => x.id === id), ss = S.subjects.filter(x => x.semester_id === id);
+    if (!await ask(`Se eliminará el semestre "${s.name}"${ss.length ? ` con sus ${ss.length} materia(s), apuntes y documentos` : ''}. No se puede deshacer.`)) return semDialog();
+    await purgeSubjects(ss.map(x => x.id)); await api.remove('semesters', id);
+    if (S.semId === id) S.semId = null;
+    await loadAll(); S.view = 'horario'; render(); semDialog();
+  },
+  // materias
+  newSubject() { subjectForm(); },
+  editSubject(id) { subjectForm(sub(id)); },
+  openSubject(id) { S.subjectId = id; S.tab = 'bloc'; S.noteId = S.folderId = null; S.q = ''; S.view = 'materia'; render(); },
+  slot(day, node, e) { if (e.target !== node) return; const h = Math.min(22, S.calH0 + Math.floor(e.offsetY / HH)); subjectForm(null, { day: +day, start_time: `${pad(h)}:00`, end_time: `${pad(Math.min(23, h + 2))}:00` }); },
+  addSlot() { const l = [...document.querySelectorAll('#slots .s-day')].pop(); $('#slots').insertAdjacentHTML('beforeend', slotRow({ day: l ? Math.min(7, +l.value + 2) : 1, start_time: l?.closest('.slot').querySelector('.s-a').value, end_time: l?.closest('.slot').querySelector('.s-b').value })); },
+  rmSlot(_, node) { node.closest('.slot').remove(); },
+  async delSubject(id) {
+    if (!await ask(`Se eliminará "${sub(id).name}" con sus apuntes, documentos y horarios. No se puede deshacer.`)) return;
+    await purgeSubjects([id]); await api.remove('subjects', id); await loadAll(); S.view = 'horario'; render();
+  },
+  // apuntes
+  async newNote() {
+    const sid = S.view === 'materia' ? S.subjectId : null;
+    const n = await api.insert('notes', { subject_id: sid, title: sid ? `Clase del ${new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long' })}` : '', content: '', updated_at: new Date().toISOString() });
+    S.notes.push(n); S.noteId = n.id; S.q = ''; render();
+  },
+  openNote(id) { if (S.noteId === id) return; S.noteId = id; render(); },
+  closeNote() { S.noteId = null; render(); if (matchMedia('(min-width:861px)').matches) return; },
+  printNote() { window.print(); },
+  async delNote(id) {
+    if (!await ask('Se eliminará este apunte con sus imágenes.')) return;
+    if (dirty && dirty.id === id) { dirty = null; clearTimeout(saveT); }
+    edNote = null;
+    await api.removePrefix(`${S.user.id}/notas/${id}`).catch(() => {}); await api.remove('notes', id);
+    S.notes = S.notes.filter(n => n.id !== id); S.noteId = null; render();
+  },
+  imgW(w) { if (selImg) { selImg.dataset.w = w; queueSave(); showImgBar(selImg); } },
+  imgDel() { if (selImg) { const i = selImg; hideImgBar(); i.remove(); queueSave(); } },
+  // pendientes
+  newTask() { taskForm(); },
+  editTask(id) { taskForm(S.tasks.find(t => t.id === id)); },
+  async toggleTask(id) { const t = S.tasks.find(x => x.id === id), done = !t.done; Object.assign(t, await api.update('tasks', id, { done, done_at: done ? new Date().toISOString() : null })); render(); if (done) toast('¡Hecho! Lo moví a completados.'); },
+  async delTask(id) { const t = S.tasks.find(x => x.id === id); if (!await ask(`Se eliminará el pendiente "${t.title}".`)) return; await api.remove('tasks', id); S.tasks = S.tasks.filter(x => x.id !== id); render(); },
+  // documentos
+  openFolder(id) { S.folderId = id || null; render(); },
+  async newFolder() { const name = await promptText('Nueva carpeta', '', 'Ej: Talleres'); if (!name) return; S.folders.push(await api.insert('folders', { subject_id: S.subjectId, parent_id: S.folderId, name })); render(); },
+  async renFolder(id) { const f = S.folders.find(x => x.id === id), name = await promptText('Renombrar carpeta', f.name); if (!name) return; Object.assign(f, await api.update('folders', id, { name })); render(); },
+  async delFolder(id) {
+    const f = S.folders.find(x => x.id === id), ids = new Set([id]);
+    for (let grew = true; grew;) { grew = false; S.folders.forEach(x => { if (ids.has(x.parent_id) && !ids.has(x.id)) { ids.add(x.id); grew = true; } }); }
+    const inside = S.files.filter(x => ids.has(x.folder_id));
+    if (!await ask(`Se eliminará la carpeta "${f.name}"${inside.length ? ` con ${inside.length} archivo(s)` : ''}.`)) return;
+    await api.removeFiles(inside.map(x => x.path)); await api.remove('folders', id); await loadAll(); render();
+  },
+  async openFile(id) {
+    const f = S.files.find(x => x.id === id), w = window.open('', '_blank');
+    try { const u = await api.url(f.path); if (w) w.location = u; else location.href = u; }
+    catch (e) { if (w) w.close(); throw e; }
+  },
+  async renFile(id) { const f = S.files.find(x => x.id === id), name = await promptText('Renombrar archivo', f.name); if (!name) return; Object.assign(f, await api.update('files', id, { name })); render(); },
+  moveFile(id) {
+    const f = S.files.find(x => x.id === id), fs = S.folders.filter(x => x.subject_id === f.subject_id).map(x => [x.id, folderPath(x).map(p => p.name).join(' / ')]).sort((a, b) => a[1].localeCompare(b[1], 'es'));
+    openForm('Mover archivo', `<p class="mut sm" style="margin:-8px 0 14px">${esc(f.name)}</p><label>Carpeta de destino<select name="to"><option value="">Documentos (principal)</option>${fs.map(([i, n]) => `<option value="${i}" ${i === f.folder_id ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>`,
+      async d => { Object.assign(f, await api.update('files', id, { folder_id: d.to || null })); });
+  },
+  async delFile(id) {
+    const f = S.files.find(x => x.id === id);
+    if (!await ask(`Se eliminará "${f.name}".`)) return;
+    await api.removeFiles([f.path]); await api.remove('files', id); S.files = S.files.filter(x => x.id !== id); render();
+  }
+};
+document.addEventListener('click', async e => {
+  const t = el(e), im = t.closest('#ed img');
+  if (im) return showImgBar(im);
+  if (!t.closest('#imgbar')) hideImgBar();
+  const c = t.closest('[data-cmd]'); if (c) return runCmd(c.dataset.cmd, c.dataset.val).catch(err => toast(errMsg(err)));
+  const node = t.closest('[data-a]'); if (!node || !A[node.dataset.a]) return;
+  if (node.dataset.a !== 'slot' && node.dataset.a !== 'menu') e.stopPropagation();
+  try { await A[node.dataset.a](node.dataset.id, node, e); } catch (err) { toast(errMsg(err)); }
+});
+document.addEventListener('mousedown', e => { if (el(e).closest('[data-cmd]')) e.preventDefault(); });
+document.addEventListener('input', e => {
+  const t = el(e);
+  if (t.id === 'ed' || t.closest('#ed') || t.id === 'nt') queueSave();
+  else if (t.id === 'nq') { S.q = t.value; $('#nlist').innerHTML = noteItems(S.view === 'materia' ? S.subjectId : null); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.matches('[data-upload]') && t.files.length) uploadFiles([...t.files]);
+  else if (t.id === 'imgpick' && t.files.length) { insertImages([...t.files]); t.value = ''; }
+});
+document.addEventListener('paste', e => {
+  if (!el(e).closest('#ed')) return;
+  const cd = e.clipboardData, imgs = [...cd.files].filter(f => f.type.startsWith('image/'));
+  if (imgs.length) { e.preventDefault(); return insertImages(imgs); }
+  const html = cd.getData('text/html');
+  if (html) { e.preventDefault(); document.execCommand('insertHTML', false, sanitize(html)); queueSave(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return; const cell = curCell(); if (!cell) return;
+  e.preventDefault();
+  let cells = [...cell.closest('table').querySelectorAll('td,th')], i = cells.indexOf(cell) + (e.shiftKey ? -1 : 1);
+  if (i >= cells.length) { addRow(cell); cells = [...cell.closest('table').querySelectorAll('td,th')]; queueSave(); }
+  if (i >= 0) caretIn(cells[i]);
+});
+document.addEventListener('dragover', e => { const t = el(e); if (t.closest('#ed') || t.closest('[data-drop]')) { e.preventDefault(); t.closest('[data-drop]')?.classList.add('drag'); } });
+document.addEventListener('dragleave', e => { const z = el(e).closest('[data-drop]'); if (z && !z.contains(e.relatedTarget)) z.classList.remove('drag'); });
+document.addEventListener('drop', e => {
+  const t = el(e), files = [...(e.dataTransfer?.files || [])]; if (!files.length) return;
+  if (t.closest('#ed')) { const imgs = files.filter(f => f.type.startsWith('image/')); if (imgs.length) { e.preventDefault(); insertImages(imgs); } }
+  else if (t.closest('[data-drop]')) { e.preventDefault(); uploadFiles(files); }
+});
+document.addEventListener('scroll', () => { if (selImg) hideImgBar(); }, true);
+document.addEventListener('submit', async e => {
+  if (e.target.dataset.form !== 'auth') return;
+  e.preventDefault();
+  const { email, password } = Object.fromEntries(new FormData(e.target)), btn = e.target.querySelector('button.primary');
+  btn.disabled = true;
+  try {
+    if (S.authMode === 'up') {
+      S.user = await api.signUp(email, password);
+      if (!S.user) { toast('Cuenta creada. Revisa tu correo para confirmarla y luego inicia sesión.'); S.authMode = 'in'; render(); return; }
+    } else S.user = await api.signIn(email, password);
+    S.prefs = { ...(S.user.user_metadata || {}) }; applyTheme();
+    await loadAll(); render();
+  } catch (err) { S.user = null; toast(errMsg(err)); btn.disabled = false; }
+});
+window.addEventListener('beforeunload', () => { if (dirty) flushSave(); });
+
+/* ---------- arranque ---------- */
+function loadScript(src) { return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => no(new Error('No se pudo cargar la librería de Supabase.')); document.head.append(s); }); }
+(async () => {
+  applyTheme();
+  try {
+    if (DEMO) api = memoryBackend();
+    else { await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'); api = supabaseBackend(supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY)); }
+    S.user = await api.session();
+    if (S.user) { S.prefs = { ...(S.user.user_metadata || {}) }; applyTheme(); await loadAll(); }
+    render();
+  } catch (e) { app.innerHTML = `<p style="padding:24px">No se pudo iniciar: ${esc(errMsg(e))}</p>`; }
+})();
+</script>
+</body>
+</html>
